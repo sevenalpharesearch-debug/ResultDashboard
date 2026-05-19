@@ -11,7 +11,8 @@ export default function Dashboard() {
   useEffect(() => {
     async function loadData() {
       try {
-        const res = await fetch('/data.json');
+        const basePath = process.env.__NEXT_ROUTER_BASEPATH || '';
+        const res = await fetch(`${basePath}/data.json`);
         const json = await res.json();
         setAllData(json || []);
       } catch (err) {
