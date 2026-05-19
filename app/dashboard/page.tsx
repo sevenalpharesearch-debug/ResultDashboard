@@ -12,7 +12,7 @@ export default function Dashboard() {
     async function loadData() {
       try {
         const basePath = process.env.__NEXT_ROUTER_BASEPATH || '';
-        const res = await fetch(`${basePath}/data.json`);
+        const res = await fetch(`${basePath}/data.json?t=${Date.now()}`);
         const json = await res.json();
         setAllData(json || []);
       } catch (err) {
