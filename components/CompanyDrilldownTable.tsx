@@ -85,15 +85,19 @@ export default function CompanyDrilldownTable({ industry, allData }: { industry:
   }
 
   return (
-    <div className="p-4 md:p-6">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-x-auto">
-        <table className="w-full text-xs text-left">
+    <div className="w-full py-3 px-3">
+      <div className="overflow-x-auto w-full border border-gray-100 bg-white rounded-xl shadow-sm">
+        <table className="w-full min-w-[850px] text-xs text-left border-separate" style={{ borderSpacing: 0 }}>
           <thead className="text-gray-500 bg-gray-50 uppercase font-semibold">
             <tr>
-              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('companyName')}>
+              <th 
+                className="w-[160px] min-w-[160px] max-w-[160px] px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap overflow-hidden text-ellipsis"
+                style={{ position: 'sticky', left: 0, zIndex: 20, backgroundColor: '#f9fafb' }}
+                onClick={() => handleSort('companyName')}
+              >
                 Company <SortIcon columnKey="companyName" />
               </th>
-              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('marketCap')}>
+              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('marketCap')}>
                 <div className="flex flex-col">
                   <span className="inline-flex items-center gap-1">
                     Market Cap <SortIcon columnKey="marketCap" />
@@ -101,25 +105,25 @@ export default function CompanyDrilldownTable({ industry, allData }: { industry:
                   <span className="text-[10px] text-gray-400 normal-case font-normal mt-0.5">(In Cr)</span>
                 </div>
               </th>
-              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('yoYSalesGrowth')}>
+              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('yoYSalesGrowth')}>
                 YoY Rev <SortIcon columnKey="yoYSalesGrowth" />
               </th>
-              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('yoYEbitdaGrowth')}>
+              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('yoYEbitdaGrowth')}>
                 YoY EBITDA <SortIcon columnKey="yoYEbitdaGrowth" />
               </th>
-              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('yoYPatGrowth')}>
+              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('yoYPatGrowth')}>
                 YoY PAT <SortIcon columnKey="yoYPatGrowth" />
               </th>
-              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('qoQSalesGrowth')}>
+              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('qoQSalesGrowth')}>
                 QoQ Rev <SortIcon columnKey="qoQSalesGrowth" />
               </th>
-              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('qoQEbitdaGrowth')}>
+              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('qoQEbitdaGrowth')}>
                 QoQ EBITDA <SortIcon columnKey="qoQEbitdaGrowth" />
               </th>
-              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('qoQPatGrowth')}>
+              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('qoQPatGrowth')}>
                 QoQ PAT <SortIcon columnKey="qoQPatGrowth" />
               </th>
-              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('ttmPe')}>
+              <th className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('ttmPe')}>
                 TTM PE <SortIcon columnKey="ttmPe" />
               </th>
             </tr>
@@ -127,20 +131,25 @@ export default function CompanyDrilldownTable({ industry, allData }: { industry:
           <tbody className="divide-y divide-gray-100">
             {sortedData.length === 0 ? (
               <tr>
-                <td colSpan={9} className="px-4 py-6 text-center text-gray-500">No company data found.</td>
+                <td colSpan={9} className="px-4 py-6 text-center text-gray-500 whitespace-nowrap">No company data found.</td>
               </tr>
             ) : (
               sortedData.map((row, idx) => (
-                <tr key={idx} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium text-gray-800">{row.companyName}</td>
-                  <td className="px-4 py-3 text-gray-600">{formatNumber(row.marketCap)}</td>
-                  <td className="px-4 py-3">{formatPercent(row.yoYSalesGrowth)}</td>
-                  <td className="px-4 py-3">{formatPercent(row.yoYEbitdaGrowth)}</td>
-                  <td className="px-4 py-3">{formatPercent(row.yoYPatGrowth)}</td>
-                  <td className="px-4 py-3">{formatPercent(row.qoQSalesGrowth)}</td>
-                  <td className="px-4 py-3">{formatPercent(row.qoQEbitdaGrowth)}</td>
-                  <td className="px-4 py-3">{formatPercent(row.qoQPatGrowth)}</td>
-                  <td className="px-4 py-3 text-gray-600">{row.ttmPe.toFixed(1)}</td>
+                <tr key={idx} className="hover:bg-gray-50/50 transition-colors group">
+                  <td 
+                    className="w-[160px] min-w-[160px] max-w-[160px] px-4 py-3 font-semibold text-gray-800 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-gray-50 transition-colors whitespace-nowrap overflow-hidden text-ellipsis"
+                    style={{ position: 'sticky', left: 0, zIndex: 10, backgroundColor: '#ffffff' }}
+                  >
+                    {row.companyName}
+                  </td>
+                  <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{formatNumber(row.marketCap)}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{formatPercent(row.yoYSalesGrowth)}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{formatPercent(row.yoYEbitdaGrowth)}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{formatPercent(row.yoYPatGrowth)}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{formatPercent(row.qoQSalesGrowth)}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{formatPercent(row.qoQEbitdaGrowth)}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{formatPercent(row.qoQPatGrowth)}</td>
+                  <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{row.ttmPe.toFixed(1)}</td>
                 </tr>
               ))
             )}

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, Fragment } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import CompanyDrilldownTable from './CompanyDrilldownTable';
 import { getLatestQuarterTableData } from '@/lib/clientCalculations';
@@ -24,6 +23,16 @@ export default function LatestQuarterTable({ allData }: { allData: any[] }) {
   
   const [sortConfig, setSortConfig] = useState<{ key: keyof IndustryData; direction: 'asc' | 'desc' } | null>(null);
   const [expandedIndustry, setExpandedIndustry] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (!allData || allData.length === 0) return;
@@ -41,9 +50,9 @@ export default function LatestQuarterTable({ allData }: { allData: any[] }) {
   }, [allData]);
 
   const handleSort = (key: keyof IndustryData) => {
-    let direction: 'asc' | 'desc' = 'desc';
-    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'desc') {
-      direction = 'asc';
+    let direction: 'asc' | 'desc' = 'asc';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
     }
     setSortConfig({ key, direction });
   };
@@ -51,59 +60,63 @@ export default function LatestQuarterTable({ allData }: { allData: any[] }) {
   const sortedData = [...data].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
-    if (a[key] < b[key]) return direction === 'asc' ? -1 : 1;
-    if (a[key] > b[key]) return direction === 'asc' ? 1 : -1;
-    return 0;
+    const multiplier = direction === 'asc' ? 1 : -1;
+    return a[key] > b[key] ? multiplier : -multiplier;
   });
 
   const formatPercent = (val: number) => {
+    if (val === null || val === undefined || isNaN(val)) return '-';
     const formatted = val.toFixed(2) + '%';
-    if (val > 0) return <span className="text-green-600 font-medium">+{formatted}</span>;
-    if (val < 0) return <span className="text-red-600 font-medium">{formatted}</span>;
-    return <span className="text-gray-500 font-medium">{formatted}</span>;
+    const colorClass = val >= 0 ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold';
+    return <span className={colorClass}>{val > 0 ? '+' : ''}{formatted}</span>;
   };
 
   const SortIcon = ({ columnKey }: { columnKey: keyof IndustryData }) => {
-    if (sortConfig?.key !== columnKey) return <ChevronDown className="w-4 h-4 text-gray-300 inline ml-1" />;
-    return sortConfig.direction === 'asc' ? (
-      <ChevronUp className="w-4 h-4 text-blue-500 inline ml-1" />
-    ) : (
-      <ChevronDown className="w-4 h-4 text-blue-500 inline ml-1" />
-    );
+    if (!sortConfig || sortConfig.key !== columnKey) {
+      return <span className="inline-block text-gray-300 ml-1 text-[10px]">↕</span>;
+    }
+    return sortConfig.direction === 'asc' 
+      ? <span className="inline-block text-blue-500 ml-1 text-[10px]">▲</span>
+      : <span className="inline-block text-blue-500 ml-1 text-[10px]">▼</span>;
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-      <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-        <h2 className="text-xl font-bold text-gray-800">
-          Latest Quarter Performance <span className="text-sm font-normal text-gray-500 ml-2">({latestQuarter})</span>
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden w-full max-w-full">
+      <div className="p-4 md:p-6 border-b border-gray-100 flex justify-between items-center">
+        <h2 className="text-lg md:text-xl font-bold text-gray-800">
+          Latest Quarter Performance <span className="text-xs md:text-sm font-normal text-gray-500 ml-2">({latestQuarter})</span>
         </h2>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm text-left">
+      <div className="overflow-x-auto w-full max-w-full">
+        <table className="w-full min-w-[1000px] text-sm text-left border-separate" style={{ borderSpacing: 0 }}>
           <thead className="text-xs text-gray-500 uppercase bg-gray-50/50">
             <tr>
-              <th className="px-6 py-4 font-medium">Industry</th>
-              <th className="px-6 py-4 font-medium cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('companiesCount')}>
+              <th 
+                className="w-[180px] min-w-[180px] max-w-[180px] px-6 py-4 font-semibold shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap overflow-hidden text-ellipsis"
+                style={{ position: 'sticky', left: 0, zIndex: 20, backgroundColor: '#f9fafb' }}
+              >
+                Industry
+              </th>
+              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('companiesCount')}>
                 No. of Companies <SortIcon columnKey="companiesCount" />
               </th>
-              <th className="px-6 py-4 font-medium cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('avgYoYSalesGrowth')}>
+              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('avgYoYSalesGrowth')}>
                 YoY Rev <SortIcon columnKey="avgYoYSalesGrowth" />
               </th>
-              <th className="px-6 py-4 font-medium cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('avgYoYEbitdaGrowth')}>
+              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('avgYoYEbitdaGrowth')}>
                 YoY EBITDA <SortIcon columnKey="avgYoYEbitdaGrowth" />
               </th>
-              <th className="px-6 py-4 font-medium cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('avgYoYPatGrowth')}>
+              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('avgYoYPatGrowth')}>
                 YoY PAT <SortIcon columnKey="avgYoYPatGrowth" />
               </th>
-              <th className="px-6 py-4 font-medium cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('avgQoQSalesGrowth')}>
+              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('avgQoQSalesGrowth')}>
                 QoQ Rev <SortIcon columnKey="avgQoQSalesGrowth" />
               </th>
-              <th className="px-6 py-4 font-medium cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('avgQoQEbitdaGrowth')}>
+              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('avgQoQEbitdaGrowth')}>
                 QoQ EBITDA <SortIcon columnKey="avgQoQEbitdaGrowth" />
               </th>
-              <th className="px-6 py-4 font-medium cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('avgQoQPatGrowth')}>
+              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('avgQoQPatGrowth')}>
                 QoQ PAT <SortIcon columnKey="avgQoQPatGrowth" />
               </th>
             </tr>
@@ -127,40 +140,44 @@ export default function LatestQuarterTable({ allData }: { allData: any[] }) {
             ) : (
               sortedData.map((row) => (
                 <Fragment key={row.industry}>
-                  <tr className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4">
+                  <tr className="hover:bg-gray-50/50 transition-colors group">
+                    <td 
+                      className="w-[180px] min-w-[180px] max-w-[180px] px-6 py-4 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-gray-50 transition-colors whitespace-nowrap overflow-hidden text-ellipsis"
+                      style={{ position: 'sticky', left: 0, zIndex: 10, backgroundColor: '#ffffff' }}
+                    >
                       <button
                         onClick={() => setExpandedIndustry(expandedIndustry === row.industry ? null : row.industry)}
-                        className="font-medium text-blue-600 hover:text-blue-800 hover:underline flex items-center"
+                        className="font-semibold text-blue-600 hover:text-blue-800 hover:underline flex items-center text-left w-full overflow-hidden text-ellipsis"
                       >
+                        {expandedIndustry === row.industry ? (
+                          <ChevronUp className="w-3 h-3 mr-1 text-gray-400 shrink-0" />
+                        ) : (
+                          <ChevronDown className="w-3 h-3 mr-1 text-gray-400 shrink-0" />
+                        )}
                         {row.industry}
                       </button>
                     </td>
-                    <td className="px-6 py-4 text-gray-600 font-medium">{row.companiesCount}</td>
-                    <td className="px-6 py-4">{formatPercent(row.avgYoYSalesGrowth)}</td>
-                    <td className="px-6 py-4">{formatPercent(row.avgYoYEbitdaGrowth)}</td>
-                    <td className="px-6 py-4">{formatPercent(row.avgYoYPatGrowth)}</td>
-                    <td className="px-6 py-4">{formatPercent(row.avgQoQSalesGrowth)}</td>
-                    <td className="px-6 py-4">{formatPercent(row.avgQoQEbitdaGrowth)}</td>
-                    <td className="px-6 py-4">{formatPercent(row.avgQoQPatGrowth)}</td>
+                    <td className="px-6 py-4 text-gray-600 font-medium whitespace-nowrap">{row.companiesCount}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{formatPercent(row.avgYoYSalesGrowth)}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{formatPercent(row.avgYoYEbitdaGrowth)}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{formatPercent(row.avgYoYPatGrowth)}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{formatPercent(row.avgQoQSalesGrowth)}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{formatPercent(row.avgQoQEbitdaGrowth)}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{formatPercent(row.avgQoQPatGrowth)}</td>
                   </tr>
                   
-                  <AnimatePresence>
-                    {expandedIndustry === row.industry && (
-                      <tr>
-                        <td colSpan={8} className="p-0">
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            className="overflow-hidden bg-gray-50/80 border-t border-b border-gray-100"
-                          >
-                            <CompanyDrilldownTable industry={row.industry} allData={allData} />
-                          </motion.div>
-                        </td>
-                      </tr>
-                    )}
-                  </AnimatePresence>
+                  {expandedIndustry === row.industry && (
+                    <tr>
+                      <td 
+                        colSpan={8} 
+                        className="p-0 bg-gray-50/80"
+                      >
+                        <div className="bg-gray-50/80 border-t border-b border-gray-100">
+                          <CompanyDrilldownTable industry={row.industry} allData={allData} />
+                        </div>
+                      </td>
+                    </tr>
+                  )}
                 </Fragment>
               ))
             )}
