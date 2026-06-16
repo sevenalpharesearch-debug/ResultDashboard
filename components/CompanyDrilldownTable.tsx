@@ -91,7 +91,7 @@ export default function CompanyDrilldownTable({ industry, allData }: { industry:
           <thead className="text-gray-500 bg-gray-50 uppercase font-semibold">
             <tr>
               <th 
-                className="w-[160px] min-w-[160px] max-w-[160px] px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap overflow-hidden text-ellipsis"
+                className="min-w-[200px] px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap"
                 style={{ position: 'sticky', left: 0, zIndex: 20, backgroundColor: '#f9fafb' }}
                 onClick={() => handleSort('companyName')}
               >
@@ -137,7 +137,7 @@ export default function CompanyDrilldownTable({ industry, allData }: { industry:
               sortedData.map((row, idx) => (
                 <tr key={idx} className="hover:bg-gray-50/50 transition-colors group">
                   <td 
-                    className="w-[160px] min-w-[160px] max-w-[160px] px-4 py-3 font-semibold text-gray-800 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-gray-50 transition-colors whitespace-nowrap overflow-hidden text-ellipsis"
+                    className="min-w-[200px] px-4 py-3 font-semibold text-gray-800 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-gray-50 transition-colors whitespace-nowrap"
                     style={{ position: 'sticky', left: 0, zIndex: 10, backgroundColor: '#ffffff' }}
                   >
                     {row.companyName}

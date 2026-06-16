@@ -93,7 +93,7 @@ export default function LatestQuarterTable({ allData }: { allData: any[] }) {
           <thead className="text-xs text-gray-500 uppercase bg-gray-50" style={{ zIndex: 30 }}>
             <tr>
               <th 
-                className="w-[180px] min-w-[180px] max-w-[180px] px-6 py-4 font-semibold shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap overflow-hidden text-ellipsis bg-gray-50 left-0"
+                className="min-w-[250px] px-6 py-4 font-semibold shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap bg-gray-50 left-0"
                 style={{ position: 'sticky', top: '128px', zIndex: 40 }}
               >
                 Industry
@@ -142,12 +142,12 @@ export default function LatestQuarterTable({ allData }: { allData: any[] }) {
                 <Fragment key={row.industry}>
                   <tr className="hover:bg-gray-50/50 transition-colors group">
                     <td
-                      className="w-[180px] min-w-[180px] max-w-[180px] px-6 py-4 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-gray-50 transition-colors whitespace-nowrap overflow-hidden text-ellipsis"
+                      className="min-w-[250px] px-6 py-4 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-gray-50 transition-colors whitespace-nowrap"
                       style={{ position: 'sticky', left: 0, zIndex: 10, backgroundColor: '#ffffff' }}
                     >
                       <button
                         onClick={() => setExpandedIndustry(expandedIndustry === row.industry ? null : row.industry)}
-                        className="font-semibold text-blue-600 hover:text-blue-800 hover:underline flex items-center text-left w-full overflow-hidden text-ellipsis"
+                        className="font-semibold text-blue-600 hover:text-blue-800 hover:underline flex items-center text-left w-full"
                       >
                         {expandedIndustry === row.industry ? (
                           <ChevronUp className="w-3 h-3 mr-1 text-gray-400 shrink-0" />
