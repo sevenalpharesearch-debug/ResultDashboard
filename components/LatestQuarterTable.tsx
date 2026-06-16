@@ -20,7 +20,7 @@ export default function LatestQuarterTable({ allData }: { allData: any[] }) {
   const [data, setData] = useState<IndustryData[]>([]);
   const [latestQuarter, setLatestQuarter] = useState<string>('');
   const [loading, setLoading] = useState(false);
-  
+
   const [sortConfig, setSortConfig] = useState<{ key: keyof IndustryData; direction: 'asc' | 'desc' } | null>(null);
   const [expandedIndustry, setExpandedIndustry] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -75,48 +75,48 @@ export default function LatestQuarterTable({ allData }: { allData: any[] }) {
     if (!sortConfig || sortConfig.key !== columnKey) {
       return <span className="inline-block text-gray-300 ml-1 text-[10px]">↕</span>;
     }
-    return sortConfig.direction === 'asc' 
+    return sortConfig.direction === 'asc'
       ? <span className="inline-block text-blue-500 ml-1 text-[10px]">▲</span>
       : <span className="inline-block text-blue-500 ml-1 text-[10px]">▼</span>;
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden w-full max-w-full">
-      <div className="p-4 md:p-6 border-b border-gray-100 flex justify-between items-center">
-        <h2 className="text-lg md:text-xl font-bold text-gray-800">
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 w-full max-w-full relative">
+      <div className="h-16 px-4 md:px-6 border-b border-gray-100 flex justify-between items-center bg-white w-full rounded-t-2xl" style={{ position: 'sticky', top: '64px', zIndex: 40 }}>
+        <h2 className="text-lg md:text-xl font-bold text-gray-800 whitespace-nowrap">
           Latest Quarter Performance <span className="text-xs md:text-sm font-normal text-gray-500 ml-2">({latestQuarter})</span>
         </h2>
       </div>
 
-      <div className="overflow-x-auto w-full max-w-full">
+      <div className="w-full max-w-full" style={{ position: 'relative', zIndex: 1 }}>
         <table className="w-full min-w-[1000px] text-sm text-left border-separate" style={{ borderSpacing: 0 }}>
-          <thead className="text-xs text-gray-500 uppercase bg-gray-50/50">
+          <thead className="text-xs text-gray-500 uppercase bg-gray-50" style={{ zIndex: 30 }}>
             <tr>
               <th 
-                className="w-[180px] min-w-[180px] max-w-[180px] px-6 py-4 font-semibold shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap overflow-hidden text-ellipsis"
-                style={{ position: 'sticky', left: 0, zIndex: 20, backgroundColor: '#f9fafb' }}
+                className="w-[180px] min-w-[180px] max-w-[180px] px-6 py-4 font-semibold shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap overflow-hidden text-ellipsis bg-gray-50 left-0"
+                style={{ position: 'sticky', top: '128px', zIndex: 40 }}
               >
                 Industry
               </th>
-              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('companiesCount')}>
+              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('companiesCount')}>
                 No. of Companies <SortIcon columnKey="companiesCount" />
               </th>
-              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('avgYoYSalesGrowth')}>
+              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgYoYSalesGrowth')}>
                 YoY Rev <SortIcon columnKey="avgYoYSalesGrowth" />
               </th>
-              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('avgYoYEbitdaGrowth')}>
+              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgYoYEbitdaGrowth')}>
                 YoY EBITDA <SortIcon columnKey="avgYoYEbitdaGrowth" />
               </th>
-              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('avgYoYPatGrowth')}>
+              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgYoYPatGrowth')}>
                 YoY PAT <SortIcon columnKey="avgYoYPatGrowth" />
               </th>
-              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('avgQoQSalesGrowth')}>
+              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgQoQSalesGrowth')}>
                 QoQ Rev <SortIcon columnKey="avgQoQSalesGrowth" />
               </th>
-              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('avgQoQEbitdaGrowth')}>
+              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgQoQEbitdaGrowth')}>
                 QoQ EBITDA <SortIcon columnKey="avgQoQEbitdaGrowth" />
               </th>
-              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap" onClick={() => handleSort('avgQoQPatGrowth')}>
+              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgQoQPatGrowth')}>
                 QoQ PAT <SortIcon columnKey="avgQoQPatGrowth" />
               </th>
             </tr>
@@ -141,7 +141,7 @@ export default function LatestQuarterTable({ allData }: { allData: any[] }) {
               sortedData.map((row) => (
                 <Fragment key={row.industry}>
                   <tr className="hover:bg-gray-50/50 transition-colors group">
-                    <td 
+                    <td
                       className="w-[180px] min-w-[180px] max-w-[180px] px-6 py-4 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-gray-50 transition-colors whitespace-nowrap overflow-hidden text-ellipsis"
                       style={{ position: 'sticky', left: 0, zIndex: 10, backgroundColor: '#ffffff' }}
                     >
@@ -165,11 +165,11 @@ export default function LatestQuarterTable({ allData }: { allData: any[] }) {
                     <td className="px-6 py-4 whitespace-nowrap">{formatPercent(row.avgQoQEbitdaGrowth)}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{formatPercent(row.avgQoQPatGrowth)}</td>
                   </tr>
-                  
+
                   {expandedIndustry === row.industry && (
                     <tr>
-                      <td 
-                        colSpan={8} 
+                      <td
+                        colSpan={8}
                         className="p-0 bg-gray-50/80"
                       >
                         <div className="bg-gray-50/80 border-t border-b border-gray-100">
