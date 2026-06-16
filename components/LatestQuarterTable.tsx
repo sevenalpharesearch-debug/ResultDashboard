@@ -89,34 +89,34 @@ export default function LatestQuarterTable({ allData }: { allData: any[] }) {
       </div>
 
       <div className="w-full max-w-full" style={{ position: 'relative', zIndex: 1 }}>
-        <table className="w-full min-w-[1000px] text-sm text-left border-separate" style={{ borderSpacing: 0 }}>
+        <table className="w-full text-sm text-left border-separate" style={{ borderSpacing: 0 }}>
           <thead className="text-xs text-gray-500 uppercase bg-gray-50" style={{ zIndex: 30 }}>
             <tr>
               <th 
-                className="min-w-[250px] px-6 py-4 font-semibold shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap bg-gray-50 left-0"
+                className="min-w-[250px] px-4 py-4 font-semibold shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap bg-gray-50 left-0"
                 style={{ position: 'sticky', top: '128px', zIndex: 40 }}
               >
                 Industry
               </th>
-              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('companiesCount')}>
+              <th className="px-4 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('companiesCount')}>
                 No. of Companies <SortIcon columnKey="companiesCount" />
               </th>
-              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgYoYSalesGrowth')}>
+              <th className="px-4 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgYoYSalesGrowth')}>
                 YoY Rev <SortIcon columnKey="avgYoYSalesGrowth" />
               </th>
-              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgYoYEbitdaGrowth')}>
+              <th className="px-4 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgYoYEbitdaGrowth')}>
                 YoY EBITDA <SortIcon columnKey="avgYoYEbitdaGrowth" />
               </th>
-              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgYoYPatGrowth')}>
+              <th className="px-4 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgYoYPatGrowth')}>
                 YoY PAT <SortIcon columnKey="avgYoYPatGrowth" />
               </th>
-              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgQoQSalesGrowth')}>
+              <th className="px-4 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgQoQSalesGrowth')}>
                 QoQ Rev <SortIcon columnKey="avgQoQSalesGrowth" />
               </th>
-              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgQoQEbitdaGrowth')}>
+              <th className="px-4 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgQoQEbitdaGrowth')}>
                 QoQ EBITDA <SortIcon columnKey="avgQoQEbitdaGrowth" />
               </th>
-              <th className="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgQoQPatGrowth')}>
+              <th className="px-4 py-4 font-semibold cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap bg-gray-50" style={{ position: 'sticky', top: '128px', zIndex: 30 }} onClick={() => handleSort('avgQoQPatGrowth')}>
                 QoQ PAT <SortIcon columnKey="avgQoQPatGrowth" />
               </th>
             </tr>
@@ -142,7 +142,7 @@ export default function LatestQuarterTable({ allData }: { allData: any[] }) {
                 <Fragment key={row.industry}>
                   <tr className="hover:bg-gray-50/50 transition-colors group">
                     <td
-                      className="min-w-[250px] px-6 py-4 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-gray-50 transition-colors whitespace-nowrap"
+                      className="min-w-[250px] px-4 py-4 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-gray-50 transition-colors whitespace-nowrap"
                       style={{ position: 'sticky', left: 0, zIndex: 10, backgroundColor: '#ffffff' }}
                     >
                       <button
@@ -157,13 +157,13 @@ export default function LatestQuarterTable({ allData }: { allData: any[] }) {
                         {row.industry}
                       </button>
                     </td>
-                    <td className="px-6 py-4 text-gray-600 font-medium whitespace-nowrap">{row.companiesCount}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{formatPercent(row.avgYoYSalesGrowth)}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{formatPercent(row.avgYoYEbitdaGrowth)}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{formatPercent(row.avgYoYPatGrowth)}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{formatPercent(row.avgQoQSalesGrowth)}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{formatPercent(row.avgQoQEbitdaGrowth)}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{formatPercent(row.avgQoQPatGrowth)}</td>
+                    <td className="px-4 py-4 text-gray-600 font-medium whitespace-nowrap">{row.companiesCount}</td>
+                    <td className="px-4 py-4 whitespace-nowrap">{formatPercent(row.avgYoYSalesGrowth)}</td>
+                    <td className="px-4 py-4 whitespace-nowrap">{formatPercent(row.avgYoYEbitdaGrowth)}</td>
+                    <td className="px-4 py-4 whitespace-nowrap">{formatPercent(row.avgYoYPatGrowth)}</td>
+                    <td className="px-4 py-4 whitespace-nowrap">{formatPercent(row.avgQoQSalesGrowth)}</td>
+                    <td className="px-4 py-4 whitespace-nowrap">{formatPercent(row.avgQoQEbitdaGrowth)}</td>
+                    <td className="px-4 py-4 whitespace-nowrap">{formatPercent(row.avgQoQPatGrowth)}</td>
                   </tr>
 
                   {expandedIndustry === row.industry && (
